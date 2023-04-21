@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +21,29 @@ public class ZombieController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.LookAt(player.position);
-        
-        //transform.Translate(Vector3.forward * Time.deltaTime);
+        RaycastHit hit;
+        //wektor prowadz¹cy od zombiaka do gracza
+        Vector3 playerVector = player.position - transform.position;
+        //testowy raycast
+        Debug.DrawRay(transform.position, playerVector, Color.yellow);
+        //"wzrok" zombiaka
+        if(Physics.Raycast(transform.position, playerVector, out hit))
+        {
+            Debug.Log("Widzê: " + hit.transform.gameObject.name);
+        }
 
-        agent.destination = player.position;
+        //transform.LookAt(player.position);
+
+        //transform.Translate(Vector3.forward * Time.deltaTime);
+        if (hit.collider.gameObject.CompareTag("Player"))
+        {
+            agent.destination = player.position;
+            agent.isStopped = false;
+        } else
+        {
+            agent.isStopped = true;
+        }
+            
     }
     public void ReceiveDamage(int ammount)
     {

@@ -22,5 +22,6 @@ public class BulletController : MonoBehaviour
             //trafiliœmy zombiaka - zadaj mu obra¿enia
             collision.gameObject.GetComponent<ZombieController>().ReceiveDamage(1);
         }
+        Destroy(gameObject, 1);
     }
 }
