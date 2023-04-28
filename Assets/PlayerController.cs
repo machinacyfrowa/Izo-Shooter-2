@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject bulletPrefab;
 
+    int hp;
     Vector2 inputVector;
     Rigidbody rb;
     Transform bulletSpawn;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         bulletSpawn = transform.Find("BulletSpawn");
         agent = GetComponent<NavMeshAgent>();
+        hp = 10;
     }
 
     // Update is called once per frame
@@ -74,4 +76,20 @@ public class PlayerController : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 10, ForceMode.Impulse);
         Destroy(bullet, 5f);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.ToString());
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Zombie"))
+        {
+            hp--;
+        }
+        if (other.CompareTag("Heal"))
+        {
+            hp = 10;
+        }
+    }
+
 }
